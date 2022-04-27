@@ -40,6 +40,17 @@ class UptimeKumaServer {
         const sslKey = args["ssl-key"] || process.env.UPTIME_KUMA_SSL_KEY || process.env.SSL_KEY || undefined;
         const sslCert = args["ssl-cert"] || process.env.UPTIME_KUMA_SSL_CERT || process.env.SSL_CERT || undefined;
 
+        let basePathEnv = process.env.UPTIME_KUMA_BASE_PATH || process.env.BASE_PATH || "/";
+
+        if (!basePathEnv.startsWith("/")) {
+            basePathEnv = "/" + basePathEnv;
+        }
+        if (!basePathEnv.endsWith("/")) {
+            basePathEnv = basePathEnv + "/";
+        }
+
+        const basePath = basePathEnv;
+
         log.info("server", "Creating express and socket.io instance");
         this.app = express();
 
@@ -54,7 +65,7 @@ class UptimeKumaServer {
             this.httpServer = http.createServer(this.app);
         }
 
-        this.io = new Server(this.httpServer);
+        this.io = new Server(this.httpServer, { path: basePath + "socket.io" });
     }
 
     async sendMonitorList(socket) {
