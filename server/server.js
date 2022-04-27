@@ -132,10 +132,6 @@ if (config.demoMode) {
 
 console.log("Creating express and socket.io instance");
 
-
-const io = new Server(server, { path: basePath + "socket.io" });
-module.exports.io = io;
-
 // Must be after io instantiation
 const { sendNotificationList, sendHeartbeatList, sendImportantHeartbeatList, sendInfo, sendProxyList } = require("./client");
 const { statusPageSocketHandler } = require("./socket-handlers/status-page-socket-handler");
