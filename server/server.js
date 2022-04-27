@@ -187,16 +187,16 @@ try {
 
     exports.entryPage = await setting("entryPage");
     await StatusPage.loadDomainMappingList();
-    const mainRouter = express.Router();
 
     log.info("server", "Adding route");
+    const mainRouter = express.Router();
 
     // ***************************
     // Normal Router here
     // ***************************
 
     // Entry Page
-    app.get("/", async (request, response) => {
+    mainRouter.get("/", async (request, response) => {
         debug(`Request Domain: ${request.hostname}`);
 
         if (request.hostname in StatusPage.domainMappingList) {
