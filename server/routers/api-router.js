@@ -13,10 +13,10 @@ let cache = apicache.middleware;
 const server = UptimeKumaServer.getInstance();
 let io = server.io;
 
-router.get("/api/entry-page", async (request, response) => {
+router.get("./api/entry-page", async (request, response) => {
     allowDevAllOrigin(response);
 
-    let result = { };
+    let result = {};
 
     if (request.hostname in StatusPage.domainMappingList) {
         result.type = "statusPageMatchedDomain";
@@ -28,7 +28,7 @@ router.get("/api/entry-page", async (request, response) => {
     response.json(result);
 });
 
-router.get("/api/push/:pushToken", async (request, response) => {
+router.get("./api/push/:pushToken", async (request, response) => {
     try {
 
         let pushToken = request.params.pushToken;
@@ -39,7 +39,7 @@ router.get("/api/push/:pushToken", async (request, response) => {
             pushToken
         ]);
 
-        if (! monitor) {
+        if (!monitor) {
             throw new Error("Monitor not found or not active.");
         }
 
@@ -95,7 +95,7 @@ router.get("/api/push/:pushToken", async (request, response) => {
 });
 
 // Status page config, incident, monitor list
-router.get("/api/status-page/:slug", cache("5 minutes"), async (request, response) => {
+router.get("./api/status-page/:slug", cache("5 minutes"), async (request, response) => {
     allowDevAllOrigin(response);
     let slug = request.params.slug;
 
@@ -150,7 +150,7 @@ router.get("/api/status-page/:slug", cache("5 minutes"), async (request, respons
 
 // Status Page Polling Data
 // Can fetch only if published
-router.get("/api/status-page/heartbeat/:slug", cache("1 minutes"), async (request, response) => {
+router.get("./api/status-page/heartbeat/:slug", cache("1 minutes"), async (request, response) => {
     allowDevAllOrigin(response);
 
     try {
